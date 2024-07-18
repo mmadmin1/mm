@@ -157,7 +157,6 @@ export default class DatabaseSettings extends AdminSettings<Props, State> {
         const dataSource = '**********' + this.state.dataSource.substring(this.state.dataSource.indexOf('@'));
 
         let recycleDbButton = <div/>;
-        if (this.props.license.IsLicensed === 'true') {
             recycleDbButton = (
                 <RequestButton
                     requestAction={recycleDatabaseConnection}
@@ -192,7 +191,6 @@ export default class DatabaseSettings extends AdminSettings<Props, State> {
                     disabled={this.props.isDisabled}
                 />
             );
-        }
 
         return (
             <SettingsGroup>

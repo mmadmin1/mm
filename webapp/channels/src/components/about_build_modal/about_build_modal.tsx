@@ -124,24 +124,21 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
                     </ExternalLink>
                 </div>
             );
-
-            if (license.IsLicensed === 'true') {
-                title = (
+            title = (
+                <FormattedMessage
+                    id='about.enterpriseEditione1'
+                    defaultMessage='Enterprise Edition'
+                />
+            );
+            licensee = (
+                <div className='form-group'>
                     <FormattedMessage
-                        id='about.enterpriseEditione1'
-                        defaultMessage='Enterprise Edition'
+                        id='about.licensed'
+                        defaultMessage='Licensed to:'
                     />
-                );
-                licensee = (
-                    <div className='form-group'>
-                        <FormattedMessage
-                            id='about.licensed'
-                            defaultMessage='Licensed to:'
-                        />
-                        <Nbsp/>{license.Company}
-                    </div>
-                );
-            }
+                    <Nbsp/>{'Our Domain'}
+                </div>
+            );
         }
 
         const termsOfService = (

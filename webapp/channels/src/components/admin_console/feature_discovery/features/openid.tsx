@@ -14,7 +14,7 @@ const OpenIDFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='openid'
-            minimumSKURequiredForFeature={LicenseSkus.Professional}
+            minimumSKURequiredForFeature={LicenseSkus.Starter}
             title={defineMessage({
                 id: 'admin.openid_feature_discovery.title',
                 defaultMessage: 'Integrate OpenID Connect with Mattermost Professional',

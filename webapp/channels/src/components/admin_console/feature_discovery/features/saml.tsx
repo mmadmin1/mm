@@ -14,7 +14,7 @@ const SAMLFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='saml'
-            minimumSKURequiredForFeature={LicenseSkus.Professional}
+            minimumSKURequiredForFeature={LicenseSkus.Starter}
             title={defineMessage({
                 id: 'admin.saml_feature_discovery.title',
                 defaultMessage: 'Integrate SAML 2.0 with Mattermost Professional',

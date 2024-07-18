@@ -216,7 +216,8 @@ export const it = {
     configIsFalse: (group: keyof Partial<AdminConfig>, setting: string) => (config: Partial<AdminConfig>) => !(config[group] as any)?.[setting],
     configContains: (group: keyof Partial<AdminConfig>, setting: string, word: string) => (config: Partial<AdminConfig>) => Boolean((config[group] as any)?.[setting]?.includes(word)),
     enterpriseReady: (config: Partial<AdminConfig>, state: any, license?: ClientLicense, enterpriseReady?: boolean) => Boolean(enterpriseReady),
-    licensed: (config: Partial<AdminConfig>, state: any, license?: ClientLicense) => license?.IsLicensed === 'true',
+    // licensed: (config: Partial<AdminConfig>, state: any, license?: ClientLicense) => license?.IsLicensed === 'true',
+    licensed: true,
     cloudLicensed: (config: Partial<AdminConfig>, state: any, license?: ClientLicense) => Boolean(license?.IsLicensed && isCloudLicense(license)),
     licensedForFeature: (feature: string) => (config: Partial<AdminConfig>, state: any, license?: ClientLicense) => Boolean(license?.IsLicensed && license[feature] === 'true'),
     licensedForSku: (skuName: string) => (config: Partial<AdminConfig>, state: any, license?: ClientLicense) => Boolean(license?.IsLicensed && license.SkuShortName === skuName),
@@ -477,10 +478,11 @@ const AdminDefinition: AdminDefinitionType = {
             groups: {
                 url: 'user_management/groups',
                 title: defineMessage({id: 'admin.sidebar.groups', defaultMessage: 'Groups'}),
-                isHidden: it.any(
-                    it.not(it.licensedForFeature('LDAPGroups')),
-                    it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
-                ),
+                // isHidden: it.any(
+                //     it.not(it.licensedForFeature('LDAPGroups')),
+                //     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
+                // ),
+                isHidden: false,
                 isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
                 schema: {
                     id: 'Groups',
@@ -492,10 +494,11 @@ const AdminDefinition: AdminDefinitionType = {
                 url: 'user_management/groups',
                 isDiscovery: true,
                 title: defineMessage({id: 'admin.sidebar.groups', defaultMessage: 'Groups'}),
-                isHidden: it.any(
-                    it.licensedForFeature('LDAPGroups'),
-                    it.not(it.enterpriseReady),
-                ),
+                // isHidden: it.any(
+                //     it.licensedForFeature('LDAPGroups'),
+                //     it.not(it.enterpriseReady),
+                // ),
+                isHidden: false,
                 schema: {
                     id: 'Groups',
                     name: defineMessage({id: 'admin.group_settings.groupsPageTitle', defaultMessage: 'Groups'}),
@@ -598,7 +601,6 @@ const AdminDefinition: AdminDefinitionType = {
                 url: 'user_management/system_roles',
                 title: defineMessage({id: 'admin.sidebar.systemRoles', defaultMessage: 'System Roles'}),
                 isHidden: it.any(
-                    it.not(it.licensedForFeature('LDAPGroups')),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
                 ),
                 isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
@@ -612,10 +614,11 @@ const AdminDefinition: AdminDefinitionType = {
                 url: 'user_management/system_roles',
                 isDiscovery: true,
                 title: defineMessage({id: 'admin.sidebar.systemRoles', defaultMessage: 'System Roles'}),
-                isHidden: it.any(
-                    it.licensedForFeature('LDAPGroups'),
-                    it.not(it.enterpriseReady),
-                ),
+                // isHidden: it.any(
+                //     it.licensedForFeature('LDAPGroups'),
+                //     it.not(it.enterpriseReady),
+                // ),
+                isHidden: false,
                 schema: {
                     id: 'SystemRoles',
                     name: defineMessage({id: 'admin.permissions.systemRoles', defaultMessage: 'System Roles'}),
@@ -1488,8 +1491,6 @@ const AdminDefinition: AdminDefinitionType = {
                 url: 'environment/high_availability',
                 title: defineMessage({id: 'admin.sidebar.highAvailability', defaultMessage: 'High Availability'}),
                 isHidden: it.any(
-                    it.not(it.licensedForFeature('Cluster')),
-                    it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.HIGH_AVAILABILITY)),
                 ),
                 searchableStrings: clusterSearchableStrings,
@@ -2274,7 +2275,8 @@ const AdminDefinition: AdminDefinitionType = {
                                     display_name: defineMessage({id: 'admin.environment.notifications.contents.generic', defaultMessage: 'Send generic description with only sender name'}),
                                 },
                             ],
-                            isHidden: it.not(it.licensedForFeature('EmailNotificationContents')),
+                            // isHidden: it.not(it.licensedForFeature('EmailNotificationContents')),
+                            isHidden: false,
                             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                         },
                         {
@@ -3199,7 +3201,8 @@ const AdminDefinition: AdminDefinitionType = {
                                     </ExternalLink>
                                 ),
                             },
-                            isHidden: it.not(it.licensedForFeature('MFA')),
+                            // isHidden: it.not(it.licensedForFeature('MFA')),
+                            isHidden: false,
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.MFA)),
                                 it.stateIsFalse('ServiceSettings.EnableMultifactorAuthentication'),
@@ -3212,7 +3215,6 @@ const AdminDefinition: AdminDefinitionType = {
                 url: 'authentication/ldap',
                 title: defineMessage({id: 'admin.sidebar.ldap', defaultMessage: 'AD/LDAP'}),
                 isHidden: it.any(
-                    it.not(it.licensedForFeature('LDAP')),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                 ),
                 schema: {
@@ -3423,7 +3425,8 @@ const AdminDefinition: AdminDefinitionType = {
                                     help_text_markdown: true,
                                     help_text_values: {siteURL: getSiteURL()},
                                     placeholder: defineMessage({id: 'admin.ldap.groupFilterEx', defaultMessage: 'E.g.: "(objectClass=group)"'}),
-                                    isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+                                    // isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+                                    isHidden: false,
                                     isDisabled: it.any(
                                         it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                         it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3639,7 +3642,8 @@ const AdminDefinition: AdminDefinitionType = {
                                     label: defineMessage({id: 'admin.ldap.groupDisplayNameAttributeTitle', defaultMessage: 'Group Display Name Attribute:'}),
                                     help_text: defineMessage({id: 'admin.ldap.groupDisplayNameAttributeDesc', defaultMessage: 'The attribute in the AD/LDAP server used to populate the group display names.'}),
                                     placeholder: defineMessage({id: 'admin.ldap.groupDisplayNameAttributeEx', defaultMessage: 'E.g.: "cn"'}),
-                                    isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+                                    // isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+                                    isHidden: false,
                                     isDisabled: it.any(
                                         it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                         it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3652,7 +3656,8 @@ const AdminDefinition: AdminDefinitionType = {
                                     help_text: defineMessage({id: 'admin.ldap.groupIdAttributeDesc', defaultMessage: 'The attribute in the AD/LDAP server used as a unique identifier for Groups. This should be a AD/LDAP attribute with a value that does not change such as `entryUUID` for LDAP or `objectGUID` for Active Directory.'}),
                                     help_text_markdown: true,
                                     placeholder: defineMessage({id: 'admin.ldap.groupIdAttributeEx', defaultMessage: 'E.g.: "objectGUID" or "entryUUID"'}),
-                                    isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+                                    // isHidden: it.not(it.licensedForFeature('LDAPGroups')),
+                                    isHidden: false,
                                     isDisabled: it.any(
                                         it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                         it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3889,10 +3894,11 @@ const AdminDefinition: AdminDefinitionType = {
                 url: 'authentication/ldap',
                 isDiscovery: true,
                 title: defineMessage({id: 'admin.sidebar.ldap', defaultMessage: 'AD/LDAP'}),
-                isHidden: it.any(
-                    it.licensedForFeature('LDAP'),
-                    it.not(it.enterpriseReady),
-                ),
+                // isHidden: it.any(
+                //     it.licensedForFeature('LDAP'),
+                //     it.not(it.enterpriseReady),
+                // ),
+                isHidden: false,
                 schema: {
                     id: 'LdapSettings',
                     name: defineMessage({id: 'admin.authentication.ldap', defaultMessage: 'AD/LDAP'}),
@@ -3911,7 +3917,6 @@ const AdminDefinition: AdminDefinitionType = {
                 url: 'authentication/saml',
                 title: defineMessage({id: 'admin.sidebar.saml', defaultMessage: 'SAML 2.0'}),
                 isHidden: it.any(
-                    it.not(it.licensedForFeature('SAML')),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                 ),
                 schema: {
@@ -4358,10 +4363,11 @@ const AdminDefinition: AdminDefinitionType = {
                 url: 'authentication/saml',
                 isDiscovery: true,
                 title: defineMessage({id: 'admin.sidebar.saml', defaultMessage: 'SAML 2.0'}),
-                isHidden: it.any(
-                    it.licensedForFeature('SAML'),
-                    it.not(it.enterpriseReady),
-                ),
+                // isHidden: it.any(
+                //     it.licensedForFeature('SAML'),
+                //     it.not(it.enterpriseReady),
+                // ),
+                isHidden: false,
                 schema: {
                     id: 'SamlSettings',
                     name: defineMessage({id: 'admin.authentication.saml', defaultMessage: 'SAML 2.0'}),
@@ -4491,7 +4497,7 @@ const AdminDefinition: AdminDefinitionType = {
                         it.licensedForSku('starter'),
                     ),
                     it.all(
-                        it.licensedForFeature('OpenId'),
+                        // it.licensedForFeature('OpenId'),
                         it.not(usesLegacyOauth),
                     ),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
@@ -5869,7 +5875,8 @@ const AdminDefinition: AdminDefinitionType = {
                             label: defineMessage({id: 'admin.experimental.ldapSettingsLoginButtonColor.title', defaultMessage: 'AD/LDAP Login Button Color:'}),
                             help_text: defineMessage({id: 'admin.experimental.ldapSettingsLoginButtonColor.desc', defaultMessage: 'Specify the color of the AD/LDAP login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.'}),
                             help_text_markdown: false,
-                            isHidden: it.not(it.licensedForFeature('LDAP')),
+                            // isHidden: it.not(it.licensedForFeature('LDAP')),
+                            isHidden: false,
                             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         },
                         {
@@ -5878,7 +5885,8 @@ const AdminDefinition: AdminDefinitionType = {
                             label: defineMessage({id: 'admin.experimental.ldapSettingsLoginButtonBorderColor.title', defaultMessage: 'AD/LDAP Login Button Border Color:'}),
                             help_text: defineMessage({id: 'admin.experimental.ldapSettingsLoginButtonBorderColor.desc', defaultMessage: 'Specify the color of the AD/LDAP login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.'}),
                             help_text_markdown: false,
-                            isHidden: it.not(it.licensedForFeature('LDAP')),
+                            // isHidden: it.not(it.licensedForFeature('LDAP')),
+                            isHidden: false,
                             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         },
                         {
@@ -5887,7 +5895,8 @@ const AdminDefinition: AdminDefinitionType = {
                             label: defineMessage({id: 'admin.experimental.ldapSettingsLoginButtonTextColor.title', defaultMessage: 'AD/LDAP Login Button Text Color:'}),
                             help_text: defineMessage({id: 'admin.experimental.ldapSettingsLoginButtonTextColor.desc', defaultMessage: 'Specify the color of the AD/LDAP login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.'}),
                             help_text_markdown: false,
-                            isHidden: it.not(it.licensedForFeature('LDAP')),
+                            // isHidden: it.not(it.licensedForFeature('LDAP')),
+                            isHidden: false,
                             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         },
                         {
@@ -6177,7 +6186,8 @@ const AdminDefinition: AdminDefinitionType = {
                             label: defineMessage({id: 'admin.experimental.samlSettingsLoginButtonColor.title', defaultMessage: 'SAML Login Button Color:'}),
                             help_text: defineMessage({id: 'admin.experimental.samlSettingsLoginButtonColor.desc', defaultMessage: 'Specify the color of the SAML login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.'}),
                             help_text_markdown: false,
-                            isHidden: it.not(it.licensedForFeature('SAML')),
+                            // isHidden: it.not(it.licensedForFeature('SAML')),
+                            isHidden: false,
                             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         },
                         {
@@ -6186,7 +6196,8 @@ const AdminDefinition: AdminDefinitionType = {
                             label: defineMessage({id: 'admin.experimental.samlSettingsLoginButtonBorderColor.title', defaultMessage: 'SAML Login Button Border Color:'}),
                             help_text: defineMessage({id: 'admin.experimental.samlSettingsLoginButtonBorderColor.desc', defaultMessage: 'Specify the color of the SAML login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.'}),
                             help_text_markdown: false,
-                            isHidden: it.not(it.licensedForFeature('SAML')),
+                            // isHidden: it.not(it.licensedForFeature('SAML')),
+                            isHidden: false,
                             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         },
                         {
@@ -6195,7 +6206,8 @@ const AdminDefinition: AdminDefinitionType = {
                             label: defineMessage({id: 'admin.experimental.samlSettingsLoginButtonTextColor.title', defaultMessage: 'SAML Login Button Text Color:'}),
                             help_text: defineMessage({id: 'admin.experimental.samlSettingsLoginButtonTextColor.desc', defaultMessage: 'Specify the color of the SAML login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.'}),
                             help_text_markdown: false,
-                            isHidden: it.not(it.licensedForFeature('SAML')),
+                            // isHidden: it.not(it.licensedForFeature('SAML')),
+                            isHidden: false,
                             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         },
                         {

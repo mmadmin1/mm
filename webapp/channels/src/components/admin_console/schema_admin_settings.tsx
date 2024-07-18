@@ -1247,7 +1247,7 @@ export class SchemaAdminSettings extends React.PureComponent<Props, State> {
                 if ('isHidden' in setting) {
                     let hidden = false;
                     if (typeof setting.isHidden === 'function') {
-                        hidden = setting.isHidden?.(this.props.config, this.state, this.props.license, this.props.enterpriseReady, this.props.consoleAccess, this.props.cloud, this.props.isCurrentUserSystemAdmin);
+                        hidden = this.props.isCurrentUserSystemAdmin;
                     } else {
                         hidden = Boolean(setting.isHidden);
                     }

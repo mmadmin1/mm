@@ -102,14 +102,14 @@ class AdminConsole extends React.PureComponent<Props, State> {
 
         const schemas: AdminDefinitionSubSection[] = Object.values(adminDefinition).flatMap((section: AdminDefinitionSection) => {
             let isSectionHidden = false;
-            if (typeof section.isHidden === 'function') {
-                isSectionHidden = section.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud, isCurrentUserSystemAdmin);
-            } else {
-                isSectionHidden = Boolean(section.isHidden);
-            }
-            if (isSectionHidden) {
-                return [];
-            }
+            // if (typeof section.isHidden === 'function') {
+            //     isSectionHidden = section.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud, isCurrentUserSystemAdmin);
+            // } else {
+            //     isSectionHidden = Boolean(section.isHidden);
+            // }
+            // if (isSectionHidden) {
+            //     return [];
+            // }
             return Object.values(section.subsections);
         });
 
@@ -125,20 +125,18 @@ class AdminConsole extends React.PureComponent<Props, State> {
 
             let isItemDisabled: boolean;
 
-            if (typeof item.isDisabled === 'function') {
-                isItemDisabled = item.isDisabled(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud, isCurrentUserSystemAdmin);
-            } else {
-                isItemDisabled = Boolean(item.isDisabled);
-            }
+            // if (typeof item.isDisabled === 'function') {
+            //     isItemDisabled = item.isDisabled(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud, isCurrentUserSystemAdmin);
+            // } else {
+            //     isItemDisabled = Boolean(item.isDisabled);
+            // }
 
-            if (!isItemDisabled && defaultUrl === '') {
-                const {url} = schemas[index];
+            const {url} = schemas[index];
 
-                // Don't use a url as default if it requires an additional ID
-                // in the path.
-                if (!url.includes(':')) {
-                    defaultUrl = url;
-                }
+            // Don't use a url as default if it requires an additional ID
+            // in the path.
+            if (!url.includes(':')) {
+                defaultUrl = url;
             }
 
             return (

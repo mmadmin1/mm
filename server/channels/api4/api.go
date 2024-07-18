@@ -104,7 +104,7 @@ type Routes struct {
 
 	Preferences *mux.Router // 'api/v4/users/{user_id:[A-Za-z0-9]+}/preferences'
 
-	License *mux.Router // 'api/v4/license'
+	// License *mux.Router // 'api/v4/license'
 
 	Public *mux.Router // 'api/v4/public'
 
@@ -235,7 +235,7 @@ func Init(srv *app.Server) (*API, error) {
 	api.BaseRoutes.Brand = api.BaseRoutes.APIRoot.PathPrefix("/brand").Subrouter()
 	api.BaseRoutes.System = api.BaseRoutes.APIRoot.PathPrefix("/system").Subrouter()
 	api.BaseRoutes.Preferences = api.BaseRoutes.User.PathPrefix("/preferences").Subrouter()
-	api.BaseRoutes.License = api.BaseRoutes.APIRoot.PathPrefix("/license").Subrouter()
+	// api.BaseRoutes.License = api.BaseRoutes.APIRoot.PathPrefix("/license").Subrouter()
 	api.BaseRoutes.Public = api.BaseRoutes.APIRoot.PathPrefix("/public").Subrouter()
 	api.BaseRoutes.Reactions = api.BaseRoutes.APIRoot.PathPrefix("/reactions").Subrouter()
 	api.BaseRoutes.Jobs = api.BaseRoutes.APIRoot.PathPrefix("/jobs").Subrouter()
@@ -291,7 +291,7 @@ func Init(srv *app.Server) (*API, error) {
 	api.InitFile()
 	api.InitUpload()
 	api.InitSystem()
-	api.InitLicense()
+	// api.InitLicense()
 	api.InitConfig()
 	api.InitWebhook()
 	api.InitPreference()
@@ -385,7 +385,7 @@ func InitLocal(srv *app.Server) *API {
 	api.BaseRoutes.OutgoingHooks = api.BaseRoutes.Hooks.PathPrefix("/outgoing").Subrouter()
 	api.BaseRoutes.OutgoingHook = api.BaseRoutes.OutgoingHooks.PathPrefix("/{hook_id:[A-Za-z0-9]+}").Subrouter()
 
-	api.BaseRoutes.License = api.BaseRoutes.APIRoot.PathPrefix("/license").Subrouter()
+	// api.BaseRoutes.License = api.BaseRoutes.APIRoot.PathPrefix("/license").Subrouter()
 
 	api.BaseRoutes.Groups = api.BaseRoutes.APIRoot.PathPrefix("/groups").Subrouter()
 
@@ -415,7 +415,7 @@ func InitLocal(srv *app.Server) *API {
 	api.InitWebhookLocal()
 	api.InitPluginLocal()
 	api.InitCommandLocal()
-	api.InitLicenseLocal()
+	// api.InitLicenseLocal()
 	api.InitBotLocal()
 	api.InitGroupLocal()
 	api.InitLdapLocal()

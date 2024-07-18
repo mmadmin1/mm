@@ -14,7 +14,7 @@ const SystemRolesFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='system_roles'
-            minimumSKURequiredForFeature={LicenseSkus.Enterprise}
+            minimumSKURequiredForFeature={LicenseSkus.Starter}
             title={defineMessage({
                 id: 'admin.system_roles_feature_discovery.title',
                 defaultMessage: 'Provide controlled access to the System Console with Mattermost Enterprise',

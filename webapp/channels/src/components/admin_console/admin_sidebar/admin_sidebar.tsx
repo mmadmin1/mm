@@ -153,7 +153,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                 return false;
             }
 
-            if (item.isHidden && item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud)) {
+            if (item.isHidden) {
                 return false;
             }
             return true;
@@ -175,7 +175,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
         Object.entries(definition).forEach(([key, section]) => {
             let isSectionHidden = false;
             if (section.isHidden) {
-                isSectionHidden = typeof section.isHidden === 'function' ? section.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud) : Boolean(section.isHidden);
+                isSectionHidden = false;
             }
             if (!isSectionHidden) {
                 const sidebarItems: JSX.Element[] = [];

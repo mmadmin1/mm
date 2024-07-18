@@ -115,13 +115,11 @@ class PushSettings extends AdminSettings<Props, State> {
         let pushNotificationServerLocation: EmailSettings['PushNotificationServerLocation'] = PUSH_NOTIFICATIONS_LOCATION_US;
         if (!config.EmailSettings.SendPushNotifications) {
             pushNotificationServerType = PUSH_NOTIFICATIONS_OFF;
-        } else if (config.EmailSettings.PushNotificationServer === Constants.MHPNS_US &&
-            this.props.license.IsLicensed === 'true' && this.props.license.MHPNS === 'true') {
+        } else if (config.EmailSettings.PushNotificationServer === Constants.MHPNS_US) {
             pushNotificationServerType = PUSH_NOTIFICATIONS_MHPNS;
             pushNotificationServerLocation = PUSH_NOTIFICATIONS_LOCATION_US;
             agree = true;
-        } else if (config.EmailSettings.PushNotificationServer === Constants.MHPNS_DE &&
-            this.props.license.IsLicensed === 'true' && this.props.license.MHPNS === 'true') {
+        } else if (config.EmailSettings.PushNotificationServer === Constants.MHPNS_DE) {
             pushNotificationServerType = PUSH_NOTIFICATIONS_MHPNS;
             pushNotificationServerLocation = PUSH_NOTIFICATIONS_LOCATION_DE;
             agree = true;
@@ -161,9 +159,7 @@ class PushSettings extends AdminSettings<Props, State> {
     renderSettings = () => {
         const pushNotificationServerTypes = [];
         pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_OFF, text: this.props.intl.formatMessage({id: 'admin.email.pushOff', defaultMessage: 'Do not send push notifications'})});
-        if (this.props.license.IsLicensed === 'true' && this.props.license.MHPNS === 'true') {
-            pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_MHPNS, text: this.props.intl.formatMessage({id: 'admin.email.mhpns', defaultMessage: 'Use HPNS connection with uptime SLA to send notifications to iOS and Android apps'})});
-        }
+        pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_MHPNS, text: this.props.intl.formatMessage({id: 'admin.email.mhpns', defaultMessage: 'Use HPNS connection with uptime SLA to send notifications to iOS and Android apps'})});
         pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_MTPNS, text: this.props.intl.formatMessage({id: 'admin.email.mtpns', defaultMessage: 'Use TPNS connection to send notifications to iOS and Android apps'})});
         pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_CUSTOM, text: this.props.intl.formatMessage({id: 'admin.email.selfPush', defaultMessage: 'Manually enter Push Notification Service location'})});
 

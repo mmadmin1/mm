@@ -113,11 +113,6 @@ export default class ClusterSettings extends AdminSettings<Props, State> {
     };
 
     renderSettings = () => {
-        const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.Cluster === 'true';
-        if (!licenseEnabled) {
-            return (<></>);
-        }
-
         let configLoadedFromCluster = null;
 
         if (Client4.clusterId) {

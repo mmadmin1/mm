@@ -18,7 +18,7 @@ import AdminNavbarDropdown from './admin_navbar_dropdown';
 
 function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
-    const isLicensed = license.IsLicensed === 'true';
+    const isLicensed = true;
     const isCloud = license.Cloud === 'true';
 
     return {

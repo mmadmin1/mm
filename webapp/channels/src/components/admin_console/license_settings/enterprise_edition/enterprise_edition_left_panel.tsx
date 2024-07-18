@@ -101,7 +101,7 @@ const EnterpriseEditionLeftPanel = ({
                     </div>
                     <div className='title'>
                         {`Mattermost ${skuName}`}
-                        {isTrialLicense && (
+                        {false && (
                             <Tag
                                 text={formatMessage({
                                     id: 'admin.license.Trial',

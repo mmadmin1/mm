@@ -405,7 +405,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             return (
                 <RenewLinkCard
                     license={this.props.license}
-                    isLicenseExpired={isLicenseExpired(this.props.license)}
+                    isLicenseExpired={false}
                     totalUsers={this.props.totalUsers}
                 />
             );
